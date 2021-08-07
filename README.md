@@ -42,5 +42,5 @@ Push your code on github.
 
 1. Clone this repo
 2. Move to appropriate directory.
-3. Run `npm install` or `yarn add` to install dependencies.
+3. Run `npm install` or `yarn` to install dependencies.
 4. Run `npm start` or `yarn start` to start the development server.
