@@ -23,7 +23,7 @@ const UserList = () => {
 
   return (
     <>
-      <table className='table'>
+      <table className='table table-responsive w-100 d-block d-md-table'>
         <thead className='thead-dark'>
           <tr>
             <th scope='col'>Name</th>

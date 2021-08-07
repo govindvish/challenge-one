@@ -13,7 +13,7 @@ const Navbar = (props) => {
 
   return (
     <>
-      <nav className='navbar navbar-expand-lg navbar-dark bg-primary'>
+      <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
         <NavLink className='navbar-brand' to='/dashboard'>
           Assign-One
         </NavLink>
@@ -38,6 +38,16 @@ const Navbar = (props) => {
                 to='/dashboard'
               >
                 Home
+              </NavLink>
+            </li>
+            <li className='nav-item'>
+              <NavLink
+                className='nav-link'
+                activeclassname='active'
+                exact={true}
+                to='/profile'
+              >
+                Profile
               </NavLink>
             </li>
             <li className='nav-item'>

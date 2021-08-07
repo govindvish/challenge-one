@@ -10,7 +10,7 @@ const Dashboard = () => {
     <div>
       <Navbar loading={loading} setLoading={setLoading} />
       <>
-        <div className='container-fluid min-vh-100'>
+        <div className='container-fluid'>
           {!loading ? (
             <div className='container my-5'>
               <h3 className='text-center mb-3'>Dashboard</h3>
