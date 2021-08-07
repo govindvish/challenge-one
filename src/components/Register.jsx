@@ -8,6 +8,57 @@ const Register = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
 
+  const validate = (values) => {
+    const errors = {};
+
+    // Validate Name
+    if (!values.name) {
+      errors.name = 'Name is required.';
+    } else if (!values.name.match(/^[a-zA-Z]+( {1}[a-zA-Z]+)*$/)) {
+      errors.name = 'Please enter valid name.';
+    } else {
+      delete errors.name;
+    }
+
+    // Validate Email
+    if (!values.email) {
+      errors.email = 'Email is required.';
+    } else if (
+      !values.email.match(
+        /^([a-zA-Z0-9_\-.]+)@((([a-z0-9]+\.)+))([a-z]{2,4})(\]?)$/
+      )
+    ) {
+      errors.email = 'Please enter valid email.';
+    } else {
+      delete errors.email;
+    }
+
+    // Validate Contact Number
+    if (!values.contact) {
+      errors.contact = 'Contact Number is required.';
+    } else if (!String(values.contact).match(/^\d{10}$/)) {
+      errors.contact = 'Please enter valid contact number.';
+    } else {
+      delete errors.contact;
+    }
+
+    // Validate Gender
+    if (!values.gender) {
+      errors.gender = 'Gender is required.';
+    } else {
+      delete errors.gender;
+    }
+
+    // Validate Password
+    if (!values.password) {
+      errors.password = 'Password is required.';
+    } else {
+      delete errors.password;
+    }
+
+    return errors;
+  };
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -16,6 +67,7 @@ const Register = () => {
       gender: '',
       password: '',
     },
+    validate,
     onSubmit: (values) => {
       setLoading(true);
       setTimeout(() => {
@@ -23,7 +75,7 @@ const Register = () => {
         console.log('Registered Successfully');
         history.push('/');
         setLoading(false);
-      }, 2000);
+      }, 1000);
     },
   });
 
@@ -32,22 +84,29 @@ const Register = () => {
       <div className='container min-vh-100'>
         <div className='row min-vh-100 justify-content-center align-items-center'>
           {!loading ? (
-            <div className='col col-sm-12 col-md-4 p-5 login-card'>
+            <div className='col col-sm-12 col-md-4 p-5 login-card my-3'>
               <h4 className='text-center'>Sign Up</h4>
               <form onSubmit={formik.handleSubmit}>
                 <div className='form-group'>
-                  <label htmlFor='name'>Name</label>
+                  <label htmlFor='name'>
+                    Name<span className='text-danger'>*</span>
+                  </label>
                   <input
                     className='form-control'
                     id='name'
                     name='name'
-                    type='name'
+                    type='text'
                     onChange={formik.handleChange}
                     value={formik.values.name}
                   />
+                  {formik.errors.name ? (
+                    <div className='text-danger'>{formik.errors.name}</div>
+                  ) : null}
                 </div>
                 <div className='form-group'>
-                  <label htmlFor='email'>Email</label>
+                  <label htmlFor='email'>
+                    Email<span className='text-danger'>*</span>
+                  </label>
                   <input
                     className='form-control'
                     id='email'
@@ -56,19 +115,29 @@ const Register = () => {
                     onChange={formik.handleChange}
                     value={formik.values.email}
                   />
+                  {formik.errors.email ? (
+                    <div className='text-danger'>{formik.errors.email}</div>
+                  ) : null}
                 </div>
                 <div className='form-group'>
-                  <label htmlFor='contact'>Contact</label>
+                  <label htmlFor='contact'>
+                    Contact<span className='text-danger'>*</span>
+                  </label>
                   <input
                     className='form-control'
                     id='contact'
                     name='contact'
-                    type='contact'
+                    type='number'
                     onChange={formik.handleChange}
                     value={formik.values.contact}
                   />
+                  {formik.errors.contact ? (
+                    <div className='text-danger'>{formik.errors.contact}</div>
+                  ) : null}
                 </div>
-                <div id='gender-radio'>Gender</div>
+                <div id='gender-radio'>
+                  Gender<span className='text-danger'>*</span>
+                </div>
                 <div className='form-group'>
                   <div className='custom-control custom-radio custom-control-inline'>
                     <input
@@ -96,9 +165,14 @@ const Register = () => {
                       Female
                     </label>
                   </div>
+                  {formik.errors.gender ? (
+                    <div className='text-danger'>{formik.errors.gender}</div>
+                  ) : null}
                 </div>
                 <div className='form-group'>
-                  <label htmlFor='password'>Password</label>
+                  <label htmlFor='password'>
+                    Password<span className='text-danger'>*</span>
+                  </label>
                   <input
                     className='form-control'
                     id='password'
@@ -107,6 +181,9 @@ const Register = () => {
                     onChange={formik.handleChange}
                     value={formik.values.password}
                   />
+                  {formik.errors.password ? (
+                    <div className='text-danger'>{formik.errors.password}</div>
+                  ) : null}
                 </div>
                 <div className='text-center'>
                   <button className='btn btn-primary mb-3' type='submit'>

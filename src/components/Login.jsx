@@ -8,18 +8,45 @@ const Login = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
 
+  const validate = (values) => {
+    const errors = {};
+
+    // Validate Email
+    if (!values.email) {
+      errors.email = 'Email is required.';
+    } else if (
+      !values.email.match(
+        /^([a-zA-Z0-9_\-.]+)@((([a-z0-9]+\.)+))([a-z]{2,4})(\]?)$/
+      )
+    ) {
+      errors.email = 'Please enter valid email.';
+    } else {
+      delete errors.email;
+    }
+
+    // Validate Password
+    if (!values.password) {
+      errors.password = 'Password is required.';
+    } else {
+      delete errors.password;
+    }
+
+    return errors;
+  };
+
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
+    validate,
     onSubmit: (values) => {
       setLoading(true);
       setTimeout(() => {
         console.log(JSON.stringify(values, null, 2));
         history.push('/dashboard');
         setLoading(false);
-      }, 2000);
+      }, 1000);
     },
   });
 
@@ -28,11 +55,13 @@ const Login = () => {
       <div className='container min-vh-100'>
         <div className='row min-vh-100 justify-content-center align-items-center'>
           {!loading ? (
-            <div className='col col-sm-12 col-md-4 p-5 login-card'>
+            <div className='col col-sm-12 col-md-4 p-5 login-card my-3'>
               <h4 className='text-center'>Sign In</h4>
               <form onSubmit={formik.handleSubmit}>
                 <div className='form-group'>
-                  <label htmlFor='email'>Email</label>
+                  <label htmlFor='email'>
+                    Email<span className='text-danger'>*</span>
+                  </label>
                   <input
                     className='form-control'
                     id='email'
@@ -41,10 +70,15 @@ const Login = () => {
                     onChange={formik.handleChange}
                     value={formik.values.email}
                   />
+                  {formik.errors.email ? (
+                    <div className='text-danger'>{formik.errors.email}</div>
+                  ) : null}
                 </div>
 
                 <div className='form-group'>
-                  <label htmlFor='password'>Password</label>
+                  <label htmlFor='password'>
+                    Password<span className='text-danger'>*</span>
+                  </label>
                   <input
                     className='form-control'
                     id='password'
@@ -53,6 +87,9 @@ const Login = () => {
                     onChange={formik.handleChange}
                     value={formik.values.password}
                   />
+                  {formik.errors.password ? (
+                    <div className='text-danger'>{formik.errors.password}</div>
+                  ) : null}
                 </div>
                 <div className='text-center'>
                   <button className='btn btn-primary mb-3' type='submit'>
